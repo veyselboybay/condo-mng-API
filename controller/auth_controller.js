@@ -23,7 +23,7 @@ const createUser = async (req, res) => {
     try {
         const newUser = await UserModel({...req.body, password: hashedPassword});
         const savedUser = await newUser.save();
-        return res.status(200).json({success:true,user: savedUser})
+        return res.status(200).json({success:true})
     } catch (error) {
         return res.json({success: false, msg:error.message});
     }
@@ -51,7 +51,7 @@ const loginUser = async (req, res) => {
     // Sign a jwt token
     const token = await jwt.sign({ id: isUser._id }, process.env.SECRET);
     
-    return res.status(200).json({ success: true, msg: 'Logged In', auth_token: token });
+    return res.status(200).json({ success: true, msg: 'Logged In', auth_token: token, user:{id:isUser._id, firstName: isUser.firstName, lastName: isUser.lastName, userGroup: isUser.userGroup} });
 }
 
 
