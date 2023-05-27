@@ -10,5 +10,10 @@ const userSchema = joi.object({
     unitNo: joi.number()
 });
 
+const loginSchema = joi.object({
+    email: joi.string().email().required(),
+    password: joi.string().min(6).required(),
+})
 
-module.exports = {userSchema}
+
+module.exports = {userSchema,loginSchema}

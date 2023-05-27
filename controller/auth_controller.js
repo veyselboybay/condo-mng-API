@@ -1,6 +1,7 @@
 const UserModel = require('../Models/user')
-const { userSchema } = require('../validation/joi')
+const { userSchema, loginSchema } = require('../validation/joi')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken');
 
 const createUser = async (req, res) => {
     // check if the req data is valid
@@ -24,9 +25,34 @@ const createUser = async (req, res) => {
         const savedUser = await newUser.save();
         return res.status(200).json({success:true,user: savedUser})
     } catch (error) {
-        return res.json(error.message);
+        return res.json({success: false, msg:error.message});
     }
 }
 
+const loginUser = async (req, res) => {
+    // validate user input
+    const { error } = loginSchema.validate(req.body);
+    if (error) {
+        return res.status(400).json({success:false, msg: error.details[0].message})
+    }
 
-module.exports = {createUser}
+    // check if the user exists!
+    const isUser = await UserModel.findOne({ email: req.body.email });
+    if (!isUser) {
+        return res.status(401).json({ success: false, msg: 'User does not exists!' });
+    }
+    
+    // check if the password matches
+    const isValidPass = await bcrypt.compare(req.body.password, isUser.password);
+    if (!isValidPass) {
+        return res.status(401).json({ success: false, msg: 'Check your email/password credentials!' });
+    }
+
+    // Sign a jwt token
+    const token = await jwt.sign({ id: isUser._id }, process.env.SECRET);
+    req.auth_token = token;
+    return res.status(200).json({ success: true, msg: 'Logged In', auth_token: token });
+}
+
+
+module.exports = {createUser, loginUser}
