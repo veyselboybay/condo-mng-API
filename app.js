@@ -2,6 +2,8 @@ const Express = require('express')
 const mongoose = require('mongoose')
 const env = require('dotenv')
 const authRoute = require('./routes/auth_route')
+const postRoute = require('./routes/posts')
+const authMiddleware = require('./auth_middleware')
 
 // dotenv configuration
 env.config();
@@ -13,6 +15,7 @@ app.use(Express.json());
 
 // Routes
 app.use('/api/v1', authRoute);
+app.use('/api/v1',authMiddleware,postRoute)
 
 // Connect to db
 mongoose.connect(process.env.DB_CONNECTION).then(()=> console.log('DB connected...')).catch((err) => {
