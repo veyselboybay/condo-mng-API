@@ -4,6 +4,7 @@ const env = require('dotenv')
 const authRoute = require('./routes/auth_route')
 const postRoute = require('./routes/posts')
 const authMiddleware = require('./auth_middleware')
+const cors = require('cors')
 
 // dotenv configuration
 env.config();
@@ -12,6 +13,11 @@ env.config();
 // create an express app instance
 const app = Express();
 app.use(Express.json());
+
+// CORS POLICY
+app.use(cors({
+    origin:'http://localhost:5173'
+}));
 
 // Routes
 app.use('/api/v1', authRoute);
