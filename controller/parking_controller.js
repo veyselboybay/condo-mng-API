@@ -32,7 +32,7 @@ const createParking = async (req, res) => {
         const savedCar = await newCar.save();
 
         // save the parking info
-        const newParking = await parkingModel({ unitNo, parkingType, car: savedCar._id });
+        const newParking = await parkingModel({ unitNo, parkingType, cars: savedCar._id });
         const saveParking = await newParking.save();
 
         return res.status(200).json({ success: true, msg: 'New Parking is created' });

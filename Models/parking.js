@@ -11,7 +11,7 @@ const parkingSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    car: {
+    cars: {
         type: mongoose.Schema.Types.ObjectId,
         ref:'Car',
         required: true,
