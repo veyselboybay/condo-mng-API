@@ -15,5 +15,17 @@ const loginSchema = joi.object({
     password: joi.string().min(6).required(),
 })
 
+const carSchema = joi.object({
+    licensePlate: joi.string().required(),
+    year: joi.number().required(),
+    model: joi.string().required(),
+    make: joi.string().required()
+})
 
-module.exports = {userSchema,loginSchema}
+const parkingSchema = joi.object({
+    unitNo: joi.string().required(),
+    parkingType: joi.string().required(),
+})
+
+
+module.exports = {userSchema,loginSchema, carSchema, parkingSchema}

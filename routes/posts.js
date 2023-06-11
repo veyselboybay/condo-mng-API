@@ -2,7 +2,7 @@ const postRouter = require('express').Router()
 const { getAllPosts, createPost, getOnePost, editPost } = require('../controller/post_controller')
 
 // get all posts
-postRouter.get('/posts', getAllPosts)
+postRouter.post('/posts', getAllPosts)
 // create a post
 postRouter.post('/createPost', createPost)
 // get one post
