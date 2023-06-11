@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const carModel = require('./car')
 
-
+// Create a parking schema
 const parkingSchema = mongoose.Schema({
     unitNo: {
         type: String,
